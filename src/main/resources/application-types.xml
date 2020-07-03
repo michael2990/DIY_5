@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="cutomer_accounts" format="json">
+      <types:shape format="weave" example="examples/customer_accounts_example.json"><![CDATA[%dw 2.0
+
+type cutomer_accounts = Array<{|  id: String,   firstName: String,   lastName: String,   address: String,   postal: String,   country: String,   miles: Number {"typeId": "int"},   creationDate: String,   "type": String|}> {"example": "[{\\\"id\\\":\\\"1234\\\",\\\"firstName\\\":\\\"John\\\",\\\"lastName\\\":\\\"Doe\\\",\\\"address\\\":\\\"123 Main St., Dallas TX\\\",\\\"postal\\\":\\\"77777\\\",\\\"country\\\":\\\"USA\\\",\\\"miles\\\":999,\\\"creationDate\\\":\\\"2019-08-21T04:34:41.098Z\\\",\\\"type\\\":\\\"personal\\\"},{\\\"id\\\":\\\"8989\\\",\\\"firstName\\\":\\\"Jane\\\",\\\"lastName\\\":\\\"Doe\\\",\\\"address\\\":\\\"10 Downing St., San Francisco CA\\\",\\\"postal\\\":\\\"89897\\\",\\\"country\\\":\\\"USA\\\",\\\"miles\\\":101,\\\"creationDate\\\":\\\"2018-12-09T21:53:12.127Z\\\",\\\"type\\\":\\\"business\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="customer_account" format="json">
+      <types:shape format="weave" example="examples/customer_account_example.json"><![CDATA[%dw 2.0
+
+type customer_account = {|
+  id: String, 
+  firstName: String, 
+  lastName: String, 
+  address: String, 
+  postal: String, 
+  country: String, 
+  miles: Number {"typeId": "int"}, 
+  creationDate: String, 
+  "type": String
+|} {"example": "{\\\"id\\\":\\\"1234\\\",\\\"firstName\\\":\\\"John\\\",\\\"lastName\\\":\\\"Doe\\\",\\\"address\\\":\\\"123 Main St., Dallas TX\\\",\\\"postal\\\":\\\"77777\\\",\\\"country\\\":\\\"USA\\\",\\\"miles\\\":999,\\\"creationDate\\\":\\\"2019-08-21T04:34:41.098Z\\\",\\\"type\\\":\\\"personal\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#6abcf16d-0ec0-45a9-b1b9-e1dafb724044">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="cutomer_accounts"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#834f3186-3f1f-4834-9a0f-1f42566b7883">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="customer_account"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
